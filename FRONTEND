@@ -1,0 +1,208 @@
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+public class eCartApplication {
+    private static HashMap<String, String> userCredentials = new HashMap<>();
+    private static HashMap<String, ArrayList<String>> orderHistory = new HashMap<>();
+    private static String currentUser = "";
+
+    public static void main(String[] args) {
+        showLoginRegisterPanel();
+    }
+
+    private static void showLoginRegisterPanel() {
+        JFrame frame = new JFrame("Login/Register");
+        frame.setSize(1200, 700);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        ImageIcon backgroundImage = new ImageIcon("");
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+
+        frame.setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(Color.BLACK);
+
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(0, 05, 78), 0, getHeight(), new Color(0, 0, 51));
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        panel.setLayout(new GridBagLayout());
+        panel.setOpaque(false);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        JLabel usernameLabel = new JLabel("Username");
+        usernameLabel.setForeground(Color.WHITE);
+        usernameLabel.setFont(new Font("Arial",Font.BOLD,15));
+        JTextField usernameField = new JTextField(15);
+        JLabel passwordLabel = new JLabel("Password");
+        passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setFont(new Font("Arial",Font.BOLD,15));
+        JPasswordField passwordField = new JPasswordField(15);
+        JButton loginButton = new JButton("   Login   ");
+        JButton registerButton = new JButton("Register");
+        JLabel messageLabel = new JLabel("", JLabel.CENTER);
+        messageLabel.setForeground(Color.WHITE);
+
+        Color buttonForeground = Color.WHITE;
+        Color buttonBackground = new Color(0, 102, 204);
+        loginButton.setBackground(buttonBackground);
+        loginButton.setForeground(buttonForeground);
+        registerButton.setBackground(buttonBackground);
+        registerButton.setForeground(buttonForeground);
+
+        gbc.gridy = 0;
+        panel.add(usernameLabel, gbc);
+        gbc.gridy = 1;
+        panel.add(usernameField, gbc);
+        gbc.gridy = 2;
+        panel.add(passwordLabel, gbc);
+        gbc.gridy = 3;
+        panel.add(passwordField, gbc);
+        gbc.gridy = 4;
+        panel.add(loginButton, gbc);
+        gbc.gridy = 5;
+        panel.add(registerButton, gbc);
+        gbc.gridy = 6;
+        panel.add(messageLabel, gbc);
+
+        loginButton.addActionListener(e -> {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            if (username.isEmpty()) {
+                messageLabel.setText("Username cannot be empty!");
+            } else if (password.isEmpty()) {
+                messageLabel.setText("Password cannot be empty!");
+            } else if (userCredentials.containsKey(username) && userCredentials.get(username).equals(password)) {
+                messageLabel.setText("Login successful!");
+                currentUser = username;
+                frame.dispose();
+                showMainApplication();
+            } else {
+                messageLabel.setText("Invalid username or password!");
+            }
+        });
+
+        registerButton.addActionListener(e -> {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            if (username.isEmpty()) {
+                messageLabel.setText("Username cannot be empty!");
+            } else if (password.isEmpty()) {
+                messageLabel.setText("Password cannot be empty!");
+            } else if (userCredentials.containsKey(username)) {
+                messageLabel.setText("Username already exists!");
+            } else {
+                userCredentials.put(username, password);
+                messageLabel.setText("Resgistration successful!");
+            }
+        });
+
+        frame.add(backgroundLabel);
+        backgroundLabel.setLayout(new BorderLayout());
+        backgroundLabel.add(panel, BorderLayout.CENTER);
+
+        frame.setVisible(true);
+    }
+
+    private static void showMainApplication() {
+        JFrame frame = new JFrame("E-Cart Application");
+        frame.setSize(1200, 700);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel sidebar = new JPanel();
+        sidebar.setBackground(new Color(0, 0, 51));
+        sidebar.setLayout(new GridLayout(6, 1, 5, 5));
+
+        JButton cartButton = new JButton("Cart");
+        JButton catalogueButton = new JButton("Catalogue");
+        JButton billingButton = new JButton("Billing");
+        JButton checkoutButton = new JButton("Checkout");
+        JButton orderHistoryButton = new JButton("Order History");
+        JButton logoutButton = new JButton("Logout");
+
+        Color buttonForeground = Color.WHITE;
+        Color buttonBackground = new Color(0, 05, 78);
+
+        cartButton.setBackground(buttonBackground);
+        cartButton.setForeground(buttonForeground);
+        catalogueButton.setBackground(buttonBackground);
+        catalogueButton.setForeground(buttonForeground);
+        billingButton.setBackground(buttonBackground);
+        billingButton.setForeground(buttonForeground);
+        checkoutButton.setBackground(buttonBackground);
+        checkoutButton.setForeground(buttonForeground);
+        orderHistoryButton.setBackground(buttonBackground);
+        orderHistoryButton.setForeground(buttonForeground);
+        logoutButton.setBackground(buttonBackground);
+        logoutButton.setForeground(buttonForeground);
+
+        sidebar.add(cartButton);
+        sidebar.add(catalogueButton);
+        sidebar.add(billingButton);
+        sidebar.add(checkoutButton);
+        sidebar.add(orderHistoryButton);
+        sidebar.add(logoutButton);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.BLACK);
+        mainPanel.setLayout(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Welcome to E-Cart Application", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+        mainPanel.add(titleLabel, BorderLayout.CENTER);
+
+        logoutButton.addActionListener(e -> {
+            frame.dispose();
+            showLoginRegisterPanel();
+        });
+
+        orderHistoryButton.addActionListener(e -> showOrderHistory(frame));
+
+        frame.setLayout(new BorderLayout());
+        frame.add(sidebar, BorderLayout.WEST);
+        frame.add(mainPanel, BorderLayout.CENTER);
+
+        frame.setVisible(true);
+    }
+
+    private static void showOrderHistory(JFrame frame) {
+        JPanel orderHistoryPanel = new JPanel();
+        orderHistoryPanel.setLayout(new BoxLayout(orderHistoryPanel, BoxLayout.Y_AXIS));
+        orderHistoryPanel.setBackground(Color.BLACK);
+        JLabel orderHistoryTitle = new JLabel("Order History");
+        orderHistoryTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        orderHistoryTitle.setForeground(Color.WHITE);
+        orderHistoryPanel.add(orderHistoryTitle);
+
+        ArrayList<String> orders = orderHistory.get(currentUser);
+        if (orders == null || orders.isEmpty()) {
+            orderHistoryPanel.add(new JLabel("No orders placed yet."));
+        } else {
+            for (String order : orders) {
+                orderHistoryPanel.add(new JLabel(order));
+            }
+        }
+
+        JOptionPane.showMessageDialog(frame, orderHistoryPanel, "Order History", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static void placeOrder(String orderDetails) {
+        if (!orderHistory.containsKey(currentUser)) {
+            orderHistory.put(currentUser, new ArrayList<>());
+        }
+        orderHistory.get(currentUser).add(orderDetails);
+    }
+}
