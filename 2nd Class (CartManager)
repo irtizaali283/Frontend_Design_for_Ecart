@@ -1,0 +1,127 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class CartManager {
+
+    private HashMap<String, Double> catalogue;
+
+    private HashMap<String, Integer> cart;
+
+    public CartManager() {
+        catalogue = new HashMap<>();
+
+        catalogue.put("Laptop - Dell Inspiron 15", 60000.0);
+        catalogue.put("Laptop - HP Pavilion x360", 70000.0);
+        catalogue.put("Laptop - Lenovo ThinkPad E14", 75000.0);
+        catalogue.put("Laptop - ASUS VivoBook 15", 55000.0);
+        catalogue.put("Laptop - Apple MacBook Air M1", 90000.0);
+
+        catalogue.put("Smartphone - Samsung Galaxy S21", 50000.0);
+        catalogue.put("Smartphone - iPhone 13", 80000.0);
+        catalogue.put("Smartphone - OnePlus 9", 60000.0);
+        catalogue.put("Smartphone - Xiaomi Mi 11", 45000.0);
+        catalogue.put("Smartphone - Google Pixel 6", 70000.0);
+
+        catalogue.put("Headphone - Sony WH-1000XM4", 25000.0);
+        catalogue.put("Headphone - Bose QuietComfort 45", 30000.0);
+        catalogue.put("Headphone - JBL Tune 750BTNC", 10000.0);
+        catalogue.put("Headphone - Sennheiser HD 450BT", 12000.0);
+        catalogue.put("Headphone - Apple AirPods Max", 60000.0);
+
+        catalogue.put("Smartwatch - Apple Watch Series 7", 50000.0);
+        catalogue.put("Smartwatch - Samsung Galaxy Watch 4", 35000.0);
+        catalogue.put("Smartwatch - Fitbit Versa 3", 20000.0);
+        catalogue.put("Smartwatch - Garmin Venu 2", 45000.0);
+        catalogue.put("Smartwatch - Amazfit GTR 3 Pro", 18000.0);
+
+        cart = new HashMap<>();
+    }
+
+    public boolean addToCart(String productName) {
+        if (!catalogue.containsKey(productName)) {
+            System.out.println("Product not found in catalogue.");
+            return false;
+        }
+        cart.put(productName, cart.getOrDefault(productName, 0) + 1);
+        System.out.println(productName + " added to the cart.");
+        return true;
+    }
+
+    public boolean undoFromCart(String productName) {
+        if (!cart.containsKey(productName)) {
+            System.out.println("Product not found in cart.");
+            return false;
+        }
+        int currentQuantity = cart.get(productName);
+        if (currentQuantity == 1) {
+            cart.remove(productName);
+        } else {
+            cart.put(productName, currentQuantity - 1);
+        }
+        System.out.println(productName + " removed from the cart.");
+        return true;
+    }
+
+    public List<String> getCartItems() {
+        List<String> items = new ArrayList<>();
+        for (String product : cart.keySet()) {
+            items.add(product + " (Quantity: " + cart.get(product) + ")");
+        }
+        return items;
+    }
+
+    public void displayCatalogue() {
+        System.out.println("Product Catalogue:");
+        for (String product : catalogue.keySet()) {
+            System.out.println(product + " - Price: ₹" + catalogue.get(product));
+        }
+    }
+
+    public void displayCart() {
+        System.out.println("Your Cart:");
+        if (cart.isEmpty()) {
+            System.out.println("Cart is empty.");
+        } else {
+            for (String product : cart.keySet()) {
+                System.out.println(product + " - Quantity: " + cart.get(product));
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        CartManager manager = new CartManager();
+
+        manager.displayCatalogue();
+
+        manager.addToCart("Laptop - Dell Inspiron 15");
+        manager.addToCart("Smartphone - Samsung Galaxy S21");
+        manager.addToCart("Smartwatch - Apple Watch Series 7");
+        manager.addToCart("Headphone - Sony WH-1000XM4");
+
+        manager.displayCart();
+
+        manager.undoFromCart("Laptop - Dell Inspiron 15");
+
+        manager.displayCart();
+    }
+
+    public HashMap<String, Double> getCatalogue() {
+        return catalogue;
+    }
+
+    public HashMap<String, Integer> getCart() {
+        return cart;
+    }
+
+    public void clearCart() {
+        cart.clear();
+    }
+    public void updateCart(String product, int quantity) {
+        if (quantity > 0) {
+            cart.put(product, quantity);
+        } else {
+            cart.remove(product);
+        }
+    }
+}
