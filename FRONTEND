@@ -1,34 +1,29 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.ArrayList;
 
-public class eCartApplication {
+class eCartApplication {
     private static HashMap<String, String> userCredentials = new HashMap<>();
-    private static HashMap<String, ArrayList<String>> orderHistory = new HashMap<>();
+    private static HashMap<String, String> userInfo = new HashMap<>();
     private static String currentUser = "";
 
     public static void main(String[] args) {
-        showLoginRegisterPanel();
+        showLoginAndRegisterPanel();
     }
 
-    private static void showLoginRegisterPanel() {
-        JFrame frame = new JFrame("Login/Register");
+    private static void showLoginAndRegisterPanel() {
+        JFrame frame = new JFrame("E-Cart Login & Register");
         frame.setSize(1200, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        ImageIcon backgroundImage = new ImageIcon("");
-        JLabel backgroundLabel = new JLabel(backgroundImage);
-
-        frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(Color.BLACK);
+        frame.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(0, 05, 78), 0, getHeight(), new Color(0, 0, 51));
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(0, 5, 78), 0, getHeight(), new Color(0, 0, 51));
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
@@ -38,122 +33,316 @@ public class eCartApplication {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
 
-        JLabel usernameLabel = new JLabel("Username");
+        JLabel signnameLabel = new JLabel("SignUp Page!");
+        signnameLabel.setForeground(Color.WHITE);
+        signnameLabel.setFont(new Font("Arial", Font.BOLD, 50));
+        JTextField signnameField = new JTextField(50);
+
+        JLabel usernameLabel = new JLabel("USERNAME:");
         usernameLabel.setForeground(Color.WHITE);
-        usernameLabel.setFont(new Font("Arial",Font.BOLD,15));
+        usernameLabel.setFont(new Font("Arial", Font.BOLD, 15));
         JTextField usernameField = new JTextField(15);
-        JLabel passwordLabel = new JLabel("Password");
+
+        JLabel passwordLabel = new JLabel("PASSWORD:");
         passwordLabel.setForeground(Color.WHITE);
-        passwordLabel.setFont(new Font("Arial",Font.BOLD,15));
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 15));
         JPasswordField passwordField = new JPasswordField(15);
-        JButton loginButton = new JButton("   Login   ");
-        JButton registerButton = new JButton("Register");
+
+        JButton loginButton = new JButton("    LOGIN    ");
+        JButton registerButton = new JButton("REGISTER");
         JLabel messageLabel = new JLabel("", JLabel.CENTER);
         messageLabel.setForeground(Color.WHITE);
 
-        Color buttonForeground = Color.WHITE;
         Color buttonBackground = new Color(0, 102, 204);
         loginButton.setBackground(buttonBackground);
-        loginButton.setForeground(buttonForeground);
+        loginButton.setForeground(Color.WHITE);
         registerButton.setBackground(buttonBackground);
-        registerButton.setForeground(buttonForeground);
+        registerButton.setForeground(Color.WHITE);
 
         gbc.gridy = 0;
-        panel.add(usernameLabel, gbc);
-        gbc.gridy = 1;
-        panel.add(usernameField, gbc);
-        gbc.gridy = 2;
-        panel.add(passwordLabel, gbc);
-        gbc.gridy = 3;
-        panel.add(passwordField, gbc);
+        panel.add(signnameLabel, gbc);
         gbc.gridy = 4;
-        panel.add(loginButton, gbc);
+        panel.add(usernameLabel, gbc);
         gbc.gridy = 5;
-        panel.add(registerButton, gbc);
+        panel.add(usernameField, gbc);
         gbc.gridy = 6;
+        panel.add(passwordLabel, gbc);
+        gbc.gridy = 7;
+        panel.add(passwordField, gbc);
+        gbc.gridy = 8;
+        panel.add(loginButton, gbc);
+        gbc.gridy = 9;
+        panel.add(registerButton, gbc);
+        gbc.gridy = 10;
         panel.add(messageLabel, gbc);
 
         loginButton.addActionListener(e -> {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
-            if (username.isEmpty()) {
-                messageLabel.setText("Username cannot be empty!");
-            } else if (password.isEmpty()) {
-                messageLabel.setText("Password cannot be empty!");
-            } else if (userCredentials.containsKey(username) && userCredentials.get(username).equals(password)) {
+            if (userCredentials.containsKey(username) && userCredentials.get(username).equals(password)) {
                 messageLabel.setText("Login successful!");
                 currentUser = username;
-                frame.dispose();
-                showMainApplication();
+            frame.dispose();
+            showMainApplication();
             } else {
                 messageLabel.setText("Invalid username or password!");
             }
         });
 
         registerButton.addActionListener(e -> {
+            frame.dispose();
+            showRegistrationPanel();
+        });
+
+        frame.add(panel, BorderLayout.CENTER);
+        frame.setVisible(true);
+    }
+
+    private static void showRegistrationPanel() {
+        JFrame frame = new JFrame("REGISTER");
+        frame.setSize(1200, 700);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setBackground(Color.BLACK);
+        frame.setLayout(new BorderLayout());
+
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(0, 5, 78), 0, getHeight(), new Color(0, 0, 51));
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        panel.setLayout(new GridBagLayout());
+        panel.setOpaque(false);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        JLabel registerLabel = new JLabel("REGISTER");
+        registerLabel.setForeground(Color.WHITE);
+        registerLabel.setFont(new Font("Arial", Font.BOLD, 30));
+
+        JLabel nameLabel = new JLabel("NAME:");
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        JTextField nameField = new JTextField(15);
+
+        JLabel emailLabel = new JLabel("EMAIL:");
+        emailLabel.setForeground(Color.WHITE);
+        emailLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        JTextField emailField = new JTextField(15);
+
+        JLabel phoneLabel = new JLabel("PHONE NUMBER:");
+        phoneLabel.setForeground(Color.WHITE);
+        phoneLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        JTextField phoneField = new JTextField(15);
+
+        JLabel usernameLabel = new JLabel("USERNAME:");
+        usernameLabel.setForeground(Color.WHITE);
+        usernameLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        JTextField usernameField = new JTextField(15);
+
+        JLabel passwordLabel = new JLabel("PASSWORD:");
+        passwordLabel.setForeground(Color.WHITE);
+        passwordLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        JPasswordField passwordField = new JPasswordField(15);
+
+        JButton registerButton = new JButton("REGISTER");
+        JButton nextButton = new JButton("Next");
+        JLabel messageLabel = new JLabel("", JLabel.CENTER);
+        messageLabel.setForeground(Color.WHITE);
+
+        Color buttonBackground = new Color(0, 102, 204);
+        registerButton.setBackground(buttonBackground);
+        registerButton.setForeground(Color.WHITE);
+        nextButton.setBackground(buttonBackground);
+        nextButton.setForeground(Color.WHITE);
+        nextButton.setVisible(false);
+
+        gbc.gridy = 0;
+        panel.add(registerLabel, gbc);
+        gbc.gridy = 1;
+        panel.add(nameLabel, gbc);
+        gbc.gridy = 2;
+        panel.add(nameField, gbc);
+        gbc.gridy = 3;
+        panel.add(emailLabel, gbc);
+        gbc.gridy = 4;
+        panel.add(emailField, gbc);
+        gbc.gridy = 5;
+        panel.add(phoneLabel, gbc);
+        gbc.gridy = 6;
+        panel.add(phoneField, gbc);
+        gbc.gridy = 7;
+        panel.add(usernameLabel, gbc);
+        gbc.gridy = 8;
+        panel.add(usernameField, gbc);
+        gbc.gridy = 9;
+        panel.add(passwordLabel, gbc);
+        gbc.gridy = 10;
+        panel.add(passwordField, gbc);
+        gbc.gridy = 11;
+        panel.add(registerButton, gbc);
+        gbc.gridy = 12;
+        panel.add(nextButton, gbc);
+        gbc.gridy = 13;
+        panel.add(messageLabel, gbc);
+
+        registerButton.addActionListener(e -> {
+            String name = nameField.getText();
+            String email = emailField.getText();
+            String phone = phoneField.getText();
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
-            if (username.isEmpty()) {
-                messageLabel.setText("Username cannot be empty!");
-            } else if (password.isEmpty()) {
-                messageLabel.setText("Password cannot be empty!");
+
+            if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || username.isEmpty() || password.isEmpty()) {
+                messageLabel.setText("All fields are required!");
+            } else if (!phone.matches("\\d{11}")) {
+                messageLabel.setText("Phone number must be 11 digits!");
+            } else if (!username.matches("[a-zA-Z0-9@_.-]+")) {
+                messageLabel.setText("Username must be alphanumeric or include '@', '_', '.', '-'!");
+            } else if (password.length() < 8) {
+                messageLabel.setText("Password must be at least 8 characters long!");
             } else if (userCredentials.containsKey(username)) {
                 messageLabel.setText("Username already exists!");
             } else {
                 userCredentials.put(username, password);
-                messageLabel.setText("Resgistration successful!");
+                userInfo.put(username, "Name: " + name + ", Email: " + email + ", Phone: " + phone);
+                messageLabel.setText("Registration successful!");
+                nextButton.setVisible(true);
             }
         });
 
-        frame.add(backgroundLabel);
-        backgroundLabel.setLayout(new BorderLayout());
-        backgroundLabel.add(panel, BorderLayout.CENTER);
+        nextButton.addActionListener(e -> {
+            frame.dispose();
+            showLoginAndRegisterPanel();
+        });
 
+        frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
+
+    private static CartManager cartManager = new CartManager();
+
+    private static void showCataloguePanel(JFrame mainFrame, JPanel sidebar, Component frame) {
+        JPanel cataloguePanel = new JPanel();
+        cataloguePanel.setBackground(Color.BLACK);
+        cataloguePanel.setLayout(new BorderLayout());
+
+        JLabel catalogueTitle = new JLabel("Product Catalogue", JLabel.CENTER);
+        catalogueTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        catalogueTitle.setForeground(Color.WHITE);
+        cataloguePanel.add(catalogueTitle, BorderLayout.NORTH);
+
+        JPanel productPanel = new JPanel();
+        productPanel.setBackground(Color.BLACK);
+        productPanel.setLayout(new GridLayout(0, 1, 10, 10));
+
+        for (String product : cartManager.getCatalogue().keySet()) {
+            JPanel itemPanel = new JPanel(new BorderLayout());
+            itemPanel.setBackground(new Color(30, 30, 30));
+            itemPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            JLabel productLabel = new JLabel(product + " - $" + cartManager.getCatalogue().get(product));
+            productLabel.setForeground(Color.WHITE);
+            productLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            itemPanel.add(productLabel, BorderLayout.CENTER);
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setBackground(new Color(30, 30, 30));
+            JButton addButton = new JButton("ADD TO CART");
+            JButton undoButton = new JButton("REMOVE FROM CART");
+
+            addButton.setBackground(new Color(0, 102, 204));
+            addButton.setForeground(Color.WHITE);
+            undoButton.setBackground(new Color(204, 0, 0));
+            undoButton.setForeground(Color.WHITE);
+
+            buttonPanel.add(addButton);
+            buttonPanel.add(undoButton);
+            itemPanel.add(buttonPanel, BorderLayout.EAST);
+
+            addButton.addActionListener(e -> {
+                cartManager.addToCart(product);
+                JOptionPane.showMessageDialog(frame, "ADDED TO CART!");
+            });
+
+            undoButton.addActionListener(e -> {
+                cartManager.undoFromCart(product);
+                JOptionPane.showMessageDialog(frame, "REMOVED FROM CART!");
+            });
+
+            productPanel.add(itemPanel);
+        }
+
+        JScrollPane productScrollPane = new JScrollPane(productPanel);
+        cataloguePanel.add(productScrollPane, BorderLayout.CENTER);
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.add(sidebar, BorderLayout.WEST);
+        mainFrame.add(cataloguePanel, BorderLayout.CENTER);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+    }
+
+    private static void showWelcomePage(JFrame mainFrame) {
+
+        JPanel welcomePanel = new JPanel();
+        welcomePanel.setLayout(new BorderLayout());
+        welcomePanel.setBackground(new Color(0, 0, 51));
+
+        JLabel welcomeLabel = new JLabel("Welcome to TechStack!", JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        welcomeLabel.setForeground(Color.WHITE);
+
+        JButton getStartedButton = new JButton("Let's Start");
+        getStartedButton.setFont(new Font("Arial", Font.BOLD, 18));
+        getStartedButton.setBackground(new Color(1, 1, 1));
+        getStartedButton.setForeground(Color.WHITE);
+        getStartedButton.setFocusPainted(false);
+        getStartedButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        getStartedButton.addActionListener(e -> {
+
+            mainFrame.getContentPane().removeAll();
+            JPanel sidebar = createSidebar(mainFrame);
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            mainPanel.setBackground(Color.BLACK);
+            JLabel titleLabel = new JLabel("Welcome to E-Cart of TechStack!", JLabel.CENTER);
+            titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            titleLabel.setForeground(Color.WHITE);
+            mainPanel.add(titleLabel, BorderLayout.CENTER);
+
+            mainFrame.add(sidebar, BorderLayout.WEST);
+            mainFrame.add(mainPanel, BorderLayout.CENTER);
+            mainFrame.revalidate();
+            mainFrame.repaint();
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(getStartedButton);
+
+        welcomePanel.add(welcomeLabel, BorderLayout.NORTH);
+        welcomePanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.add(welcomePanel, BorderLayout.CENTER);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+    }
+
 
     private static void showMainApplication() {
         JFrame frame = new JFrame("E-Cart Application");
         frame.setSize(1200, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel sidebar = new JPanel();
-        sidebar.setBackground(new Color(0, 0, 51));
-        sidebar.setLayout(new GridLayout(6, 1, 5, 5));
-
-        JButton cartButton = new JButton("Cart");
-        JButton catalogueButton = new JButton("Catalogue");
-        JButton billingButton = new JButton("Billing");
-        JButton checkoutButton = new JButton("Checkout");
-        JButton orderHistoryButton = new JButton("Order History");
-        JButton logoutButton = new JButton("Logout");
-
-        Color buttonForeground = Color.WHITE;
-        Color buttonBackground = new Color(0, 05, 78);
-
-        cartButton.setBackground(buttonBackground);
-        cartButton.setForeground(buttonForeground);
-        catalogueButton.setBackground(buttonBackground);
-        catalogueButton.setForeground(buttonForeground);
-        billingButton.setBackground(buttonBackground);
-        billingButton.setForeground(buttonForeground);
-        checkoutButton.setBackground(buttonBackground);
-        checkoutButton.setForeground(buttonForeground);
-        orderHistoryButton.setBackground(buttonBackground);
-        orderHistoryButton.setForeground(buttonForeground);
-        logoutButton.setBackground(buttonBackground);
-        logoutButton.setForeground(buttonForeground);
-
-        sidebar.add(cartButton);
-        sidebar.add(catalogueButton);
-        sidebar.add(billingButton);
-        sidebar.add(checkoutButton);
-        sidebar.add(orderHistoryButton);
-        sidebar.add(logoutButton);
+        JPanel sidebar = createSidebar(frame);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.BLACK);
@@ -164,45 +353,374 @@ public class eCartApplication {
         titleLabel.setForeground(Color.WHITE);
         mainPanel.add(titleLabel, BorderLayout.CENTER);
 
-        logoutButton.addActionListener(e -> {
-            frame.dispose();
-            showLoginRegisterPanel();
-        });
-
-        orderHistoryButton.addActionListener(e -> showOrderHistory(frame));
-
         frame.setLayout(new BorderLayout());
         frame.add(sidebar, BorderLayout.WEST);
         frame.add(mainPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
+
+        showWelcomePage(frame);
+
+
     }
 
-    private static void showOrderHistory(JFrame frame) {
-        JPanel orderHistoryPanel = new JPanel();
-        orderHistoryPanel.setLayout(new BoxLayout(orderHistoryPanel, BoxLayout.Y_AXIS));
-        orderHistoryPanel.setBackground(Color.BLACK);
-        JLabel orderHistoryTitle = new JLabel("Order History");
-        orderHistoryTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        orderHistoryTitle.setForeground(Color.WHITE);
-        orderHistoryPanel.add(orderHistoryTitle);
+    private static JPanel createSidebar(JFrame frame) {
+        JPanel sidebar = new JPanel();
+        sidebar.setBackground(new Color(0, 0, 51));
+        sidebar.setLayout(new GridLayout(5, 1, 5, 5));
+        sidebar.setPreferredSize(new Dimension(200, 700));
 
-        ArrayList<String> orders = orderHistory.get(currentUser);
-        if (orders == null || orders.isEmpty()) {
-            orderHistoryPanel.add(new JLabel("No orders placed yet."));
+        JButton catalogueButton = new JButton("CATALOGUE");
+        JButton cartButton = new JButton("CART");
+        JButton billingButton = new JButton("BILLING");
+        JButton checkoutButton = new JButton("CHECKOUT");
+        JButton logoutButton = new JButton("LOGOUT");
+
+        Color buttonForeground = Color.WHITE;
+        Color buttonBackground = new Color(0, 5, 78);
+
+        catalogueButton.setBackground(buttonBackground);
+        catalogueButton.setForeground(buttonForeground);
+        cartButton.setBackground(buttonBackground);
+        cartButton.setForeground(buttonForeground);
+        billingButton.setBackground(buttonBackground);
+        billingButton.setForeground(buttonForeground);
+        checkoutButton.setBackground(buttonBackground);
+        checkoutButton.setForeground(buttonForeground);
+        logoutButton.setBackground(buttonBackground);
+        logoutButton.setForeground(buttonForeground);
+
+        sidebar.add(catalogueButton);
+        sidebar.add(cartButton);
+        sidebar.add(billingButton);
+        sidebar.add(checkoutButton);
+        sidebar.add(logoutButton);
+
+        catalogueButton.addActionListener(e -> {
+            showCataloguePanel(frame, sidebar, frame);
+        });
+
+        cartButton.addActionListener(e -> {
+            showCartPanel(frame, sidebar);
+        });
+
+        billingButton.addActionListener(e -> {
+            showBillingPanel(frame, sidebar, cartManager.getCart());
+        });
+
+        checkoutButton.addActionListener(e -> {
+            showCheckoutPanel(frame, sidebar);
+        });
+
+        logoutButton.addActionListener(e -> {
+            frame.dispose();
+            showLoginRegisterPanel();
+        });
+
+        return sidebar;
+    }
+
+    private static void showLoginRegisterPanel() {
+
+    }
+
+    private static void showCartPanel(JFrame mainFrame, JPanel sidebar) {
+        JPanel cartPanel = new JPanel();
+        cartPanel.setBackground(Color.BLACK);
+        cartPanel.setLayout(new BorderLayout());
+
+        JLabel cartTitle = new JLabel("YOUR CART", JLabel.CENTER);
+        cartTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        cartTitle.setForeground(Color.WHITE);
+        cartPanel.add(cartTitle, BorderLayout.NORTH);
+
+        JPanel cartItemsPanel = new JPanel();
+        cartItemsPanel.setBackground(Color.BLACK);
+        cartItemsPanel.setLayout(new GridLayout(0, 1, 10, 10));
+
+        HashMap<String, Integer> cart = cartManager.getCart();
+        if (cart.isEmpty()) {
+            JLabel emptyLabel = new JLabel("YOUR CART IS EMPTY.", JLabel.CENTER);
+            emptyLabel.setForeground(Color.GRAY);
+            emptyLabel.setFont(new Font("Arial", Font.ITALIC, 18));
+            cartItemsPanel.add(emptyLabel);
         } else {
-            for (String order : orders) {
-                orderHistoryPanel.add(new JLabel(order));
+            for (String product : cart.keySet()) {
+                JPanel itemPanel = new JPanel(new BorderLayout());
+                itemPanel.setBackground(new Color(30, 30, 30));
+                itemPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                JLabel productLabel = new JLabel(product + " - Quantity: " + cart.get(product));
+                productLabel.setForeground(Color.WHITE);
+                productLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                itemPanel.add(productLabel, BorderLayout.CENTER);
+
+                JPanel quantityPanel = new JPanel();
+                quantityPanel.setBackground(new Color(30, 30, 30));
+
+                JButton minusButton = new JButton("-");
+                minusButton.setBackground(new Color(204, 0, 0));
+                minusButton.setForeground(Color.WHITE);
+                minusButton.addActionListener(e -> {
+                    int updatedQuantity = cartManager.getCart().get(product) - 1;
+                    if (updatedQuantity > 0) {
+                        cartManager.updateCart(product, updatedQuantity);
+                    } else {
+                        cartManager.undoFromCart(product);
+                    }
+                    showCartPanel(mainFrame, sidebar);
+                });
+
+                JLabel quantityLabel = new JLabel(String.valueOf(cart.get(product)));
+                quantityLabel.setForeground(Color.WHITE);
+                quantityLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+
+                JButton plusButton = new JButton("+");
+                plusButton.setBackground(new Color(0, 204, 0));
+                plusButton.setForeground(Color.WHITE);
+                plusButton.addActionListener(e -> {
+                    int updatedQuantity = cartManager.getCart().get(product) + 1;
+                    cartManager.updateCart(product, updatedQuantity);
+                    showCartPanel(mainFrame, sidebar);
+                });
+
+                quantityPanel.add(minusButton);
+                quantityPanel.add(quantityLabel);
+                quantityPanel.add(plusButton);
+
+                itemPanel.add(quantityPanel, BorderLayout.EAST);
+                cartItemsPanel.add(itemPanel);
             }
         }
 
-        JOptionPane.showMessageDialog(frame, orderHistoryPanel, "Order History", JOptionPane.INFORMATION_MESSAGE);
+        JScrollPane cartScrollPane = new JScrollPane(cartItemsPanel);
+        cartScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        cartPanel.add(cartScrollPane, BorderLayout.CENTER);
+
+        JButton proceedToBillingButton = new JButton("               PROCEED TO BILLING               ");
+        proceedToBillingButton.setBackground(new Color(0, 102, 204));
+        proceedToBillingButton.setForeground(Color.WHITE);
+        proceedToBillingButton.setFont(new Font("Arial", Font.BOLD, 16));
+        proceedToBillingButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        proceedToBillingButton.addActionListener(e -> {
+            showBillingPanel(mainFrame, sidebar, cart);
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.BLACK);
+        buttonPanel.add(proceedToBillingButton);
+        cartPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.add(sidebar, BorderLayout.WEST);
+        mainFrame.add(cartPanel, BorderLayout.CENTER);
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
 
-    private static void placeOrder(String orderDetails) {
-        if (!orderHistory.containsKey(currentUser)) {
-            orderHistory.put(currentUser, new ArrayList<>());
+    private static void showBillingPanel(JFrame mainFrame, JPanel sidebar, HashMap<String, Integer> cart) {
+        JPanel billingPanel = new JPanel();
+        billingPanel.setBackground(Color.BLACK);
+        billingPanel.setLayout(new BorderLayout());
+
+        JLabel billingTitle = new JLabel("INVOICE", JLabel.CENTER);
+        billingTitle.setFont(new Font("Arial", Font.BOLD, 28));
+        billingTitle.setForeground(Color.WHITE);
+        billingTitle.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        billingPanel.add(billingTitle, BorderLayout.NORTH);
+
+        JPanel invoiceItemsPanel = new JPanel();
+        invoiceItemsPanel.setBackground(Color.BLACK);
+        invoiceItemsPanel.setLayout(new GridLayout(0, 1, 10, 10));
+
+        double totalPrice = 0;
+        for (String product : cart.keySet()) {
+            int quantity = cart.get(product);
+            double pricePerUnit = cartManager.getCatalogue().get(product);
+            double itemTotal = pricePerUnit * quantity;
+            totalPrice += itemTotal;
+
+            JPanel itemPanel = new JPanel(new BorderLayout());
+            itemPanel.setBackground(new Color(30, 30, 30));
+            itemPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            JLabel productLabel = new JLabel(product + " (x" + quantity + ") - $" + String.format("%.2f", itemTotal));
+            productLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            productLabel.setForeground(Color.WHITE);
+            itemPanel.add(productLabel, BorderLayout.CENTER);
+
+            invoiceItemsPanel.add(itemPanel);
         }
-        orderHistory.get(currentUser).add(orderDetails);
+
+        JLabel totalLabel = new JLabel("TOTAL PRICE: $" + String.format("%.2f", totalPrice), JLabel.CENTER);
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        totalLabel.setForeground(Color.CYAN);
+        totalLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
+        invoiceItemsPanel.add(totalLabel);
+
+        JScrollPane invoiceScrollPane = new JScrollPane(invoiceItemsPanel);
+        invoiceScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        billingPanel.add(invoiceScrollPane, BorderLayout.CENTER);
+
+        JPanel sortingPanel = new JPanel();
+        sortingPanel.setBackground(Color.BLACK);
+        sortingPanel.setLayout(new GridLayout(1, 2, 10, 0));
+
+        JButton sortLowToHigh = new JButton("Sort: Low to High");
+        sortLowToHigh.setBackground(new Color(0, 102, 204));
+        sortLowToHigh.setForeground(Color.WHITE);
+        sortLowToHigh.addActionListener(e -> {
+            cart.entrySet().stream()
+                    .sorted((entry1, entry2) -> {
+                        double price1 = cartManager.getCatalogue().get(entry1.getKey());
+                        double price2 = cartManager.getCatalogue().get(entry2.getKey());
+                        return Double.compare(price1, price2);
+                    })
+                    .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+        });
+
+        JButton sortHighToLow = new JButton("Sort: High to Low");
+        sortHighToLow.setBackground(new Color(0, 102, 204));
+        sortHighToLow.setForeground(Color.WHITE);
+        sortHighToLow.addActionListener(e -> {
+            cart.entrySet().stream()
+                    .sorted((entry1, entry2) -> {
+                        double price1 = cartManager.getCatalogue().get(entry1.getKey());
+                        double price2 = cartManager.getCatalogue().get(entry2.getKey());
+                        return Double.compare(price2, price1);
+                    })
+                    .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+        });
+
+        sortingPanel.add(sortLowToHigh);
+        sortingPanel.add(sortHighToLow);
+        billingPanel.add(sortingPanel, BorderLayout.SOUTH);
+
+        JButton checkoutButton = new JButton("               PROCEED TO BILLING               ");
+        checkoutButton.setBackground(new Color(0, 102, 204));
+        checkoutButton.setForeground(Color.WHITE);
+        checkoutButton.setFont(new Font("Arial", Font.BOLD, 16));
+        checkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        checkoutButton.addActionListener(e -> {
+            showCheckoutPanel(mainFrame, sidebar);
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.BLACK);
+        buttonPanel.add(checkoutButton);
+        billingPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.add(sidebar, BorderLayout.WEST);
+        mainFrame.add(billingPanel, BorderLayout.CENTER);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+    }
+
+    private static void showCheckoutPanel(JFrame frame, JPanel sidebar) {
+
+        JPanel checkoutPanel = new JPanel();
+        checkoutPanel.setBackground(Color.BLACK);
+        checkoutPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        JLabel checkoutTitle = new JLabel("CHECKOUT", JLabel.CENTER);
+        checkoutTitle.setFont(new Font("Arial", Font.BOLD, 30));
+        checkoutTitle.setForeground(Color.WHITE);
+
+        gbc.gridy = 0;
+        checkoutPanel.add(checkoutTitle, gbc);
+
+        JLabel nameLabel = new JLabel("              NAME:");
+        nameLabel.setForeground(Color.WHITE);
+        JTextField nameField = new JTextField(20);
+        gbc.gridy = 1;
+        checkoutPanel.add(nameLabel, gbc);
+        gbc.gridx = 1;
+        checkoutPanel.add(nameField, gbc);
+
+        JLabel addressLabel = new JLabel("           ADDRESS:");
+        addressLabel.setForeground(Color.WHITE);
+        JTextField addressField = new JTextField(20);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        checkoutPanel.add(addressLabel, gbc);
+        gbc.gridx = 1;
+        checkoutPanel.add(addressField, gbc);
+
+        JLabel phoneLabel = new JLabel("   PHONE NUMBER:");
+        phoneLabel.setForeground(Color.WHITE);
+        JTextField phoneField = new JTextField(20);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        checkoutPanel.add(phoneLabel, gbc);
+        gbc.gridx = 1;
+        checkoutPanel.add(phoneField, gbc);
+
+        JLabel paymentLabel = new JLabel("PAYMENT METHOD:");
+        paymentLabel.setForeground(Color.WHITE);
+        JButton codButton = new JButton("       CASH ON DELIVERY (COD)       ");
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        checkoutPanel.add(paymentLabel, gbc);
+        gbc.gridx = 1;
+        checkoutPanel.add(codButton, gbc);
+
+        codButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(frame, "CASH ON DELIVERY SELECTED.");
+        });
+
+        JButton confirmButton = new JButton("            CONFIRM CHECKOUT            ");
+        confirmButton.setBackground(new Color(0, 102, 204));
+        confirmButton.setForeground(Color.WHITE);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        checkoutPanel.add(confirmButton, gbc);
+
+        confirmButton.addActionListener(e -> {
+
+            if (nameField.getText().trim().isEmpty() || addressField.getText().trim().isEmpty() || phoneField.getText().trim().isEmpty()) {
+
+                JOptionPane.showMessageDialog(frame, "Please fill in all the required fields (Name, Address, and Phone Number).",
+                        "Incomplete Information", JOptionPane.ERROR_MESSAGE);
+            } else if (phoneField.getText().length() != 11) {
+
+                JOptionPane.showMessageDialog(frame, "Please enter a valid phone number with exactly 11 digits.",
+                        "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
+            } else {
+
+                JOptionPane.showMessageDialog(frame, " YOUR ORDER IS PLACED! ");
+
+                showWelcomePage(frame, sidebar);
+            }
+        });
+
+        frame.getContentPane().removeAll();
+        frame.setLayout(new BorderLayout());
+        frame.add(checkoutPanel, BorderLayout.CENTER);
+        frame.add(sidebar, BorderLayout.WEST);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    private static void showWelcomePage(JFrame frame, JPanel sidebar) {
+        JPanel welcomePanel = new JPanel();
+        welcomePanel.setBackground(Color.BLACK);
+        welcomePanel.setLayout(new BorderLayout());
+
+        JLabel welcomeLabel = new JLabel("WELCOME TO TECH STACK!", JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        welcomeLabel.setForeground(Color.WHITE);
+        welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
+
+        frame.getContentPane().removeAll();
+        frame.add(sidebar, BorderLayout.WEST);
+        frame.add(welcomePanel, BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
     }
 }
