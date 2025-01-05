@@ -1,12 +1,10 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class CartManager {
 
-    private HashMap<String, Double> catalogue;
+    private final HashMap<String, Double> catalogue;
 
-    private HashMap<String, Integer> cart;
+    private final HashMap<String, Integer> cart;
 
     public CartManager() {
         catalogue = new HashMap<>();
@@ -38,20 +36,19 @@ public class CartManager {
         cart = new HashMap<>();
     }
 
-    public boolean addToCart(String productName) {
+    public void addToCart(String productName) {
         if (!catalogue.containsKey(productName)) {
             System.out.println("Product not found in catalogue.");
-            return false;
+            return;
         }
         cart.put(productName, cart.getOrDefault(productName, 0) + 1);
         System.out.println(productName + " added to the cart.");
-        return true;
     }
 
-    public boolean undoFromCart(String productName) {
+    public void undoFromCart(String productName) {
         if (!cart.containsKey(productName)) {
             System.out.println("Product not found in cart.");
-            return false;
+            return;
         }
         int currentQuantity = cart.get(productName);
         if (currentQuantity == 1) {
@@ -60,15 +57,6 @@ public class CartManager {
             cart.put(productName, currentQuantity - 1);
         }
         System.out.println(productName + " removed from the cart.");
-        return true;
-    }
-
-    public List<String> getCartItems() {
-        List<String> items = new ArrayList<>();
-        for (String product : cart.keySet()) {
-            items.add(product + " (Quantity: " + cart.get(product) + ")");
-        }
-        return items;
     }
 
     public void displayCatalogue() {
@@ -112,10 +100,6 @@ public class CartManager {
 
     public HashMap<String, Integer> getCart() {
         return cart;
-    }
-
-    public void clearCart() {
-        cart.clear();
     }
     public void updateCart(String product, int quantity) {
         if (quantity > 0) {
