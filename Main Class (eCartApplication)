@@ -3,9 +3,8 @@ import java.awt.*;
 import java.util.HashMap;
 
 class eCartApplication {
-    private static HashMap<String, String> userCredentials = new HashMap<>();
-    private static HashMap<String, String> userInfo = new HashMap<>();
-    private static String currentUser = "";
+    private static final HashMap<String, String> userCredentials = new HashMap<>();
+    private static final HashMap<String, String> userInfo = new HashMap<>();
 
     public static void main(String[] args) {
         showLoginAndRegisterPanel();
@@ -37,7 +36,7 @@ class eCartApplication {
         JLabel signnameLabel = new JLabel("SignUp Page!");
         signnameLabel.setForeground(Color.WHITE);
         signnameLabel.setFont(new Font("Arial", Font.BOLD, 50));
-        JTextField signnameField = new JTextField(50);
+        new JTextField(50);
 
         JLabel usernameLabel = new JLabel("USERNAME:");
         usernameLabel.setForeground(Color.WHITE);
@@ -77,20 +76,19 @@ class eCartApplication {
         gbc.gridy = 10;
         panel.add(messageLabel, gbc);
 
-        loginButton.addActionListener(e -> {
+        loginButton.addActionListener(_ -> {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
             if (userCredentials.containsKey(username) && userCredentials.get(username).equals(password)) {
                 messageLabel.setText("Login successful!");
-                currentUser = username;
-            frame.dispose();
+                frame.dispose();
             showMainApplication();
             } else {
                 messageLabel.setText("Invalid username or password!");
             }
         });
 
-        registerButton.addActionListener(e -> {
+        registerButton.addActionListener(_ -> {
             frame.dispose();
             showRegistrationPanel();
         });
@@ -106,18 +104,7 @@ class eCartApplication {
         frame.getContentPane().setBackground(Color.BLACK);
         frame.setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                GradientPaint gradient = new GradientPaint(0, 0, new Color(0, 5, 78), 0, getHeight(), new Color(0, 0, 51));
-                g2d.setPaint(gradient);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
-            }
-        };
-        panel.setLayout(new GridBagLayout());
-        panel.setOpaque(false);
+        JPanel panel = getJPanel();
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -192,7 +179,7 @@ class eCartApplication {
         gbc.gridy = 13;
         panel.add(messageLabel, gbc);
 
-        registerButton.addActionListener(e -> {
+        registerButton.addActionListener(_ -> {
             String name = nameField.getText();
             String email = emailField.getText();
             String phone = phoneField.getText();
@@ -217,7 +204,7 @@ class eCartApplication {
             }
         });
 
-        nextButton.addActionListener(e -> {
+        nextButton.addActionListener(_ -> {
             frame.dispose();
             showLoginAndRegisterPanel();
         });
@@ -226,7 +213,23 @@ class eCartApplication {
         frame.setVisible(true);
     }
 
-    private static CartManager cartManager = new CartManager();
+    private static JPanel getJPanel() {
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(0, 5, 78), 0, getHeight(), new Color(0, 0, 51));
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        panel.setLayout(new GridBagLayout());
+        panel.setOpaque(false);
+        return panel;
+    }
+
+    private static final CartManager cartManager = new CartManager();
 
     private static void showCataloguePanel(JFrame mainFrame, JPanel sidebar, Component frame) {
         JPanel cataloguePanel = new JPanel();
@@ -266,12 +269,12 @@ class eCartApplication {
             buttonPanel.add(undoButton);
             itemPanel.add(buttonPanel, BorderLayout.EAST);
 
-            addButton.addActionListener(e -> {
+            addButton.addActionListener(_ -> {
                 cartManager.addToCart(product);
                 JOptionPane.showMessageDialog(frame, "ADDED TO CART!");
             });
 
-            undoButton.addActionListener(e -> {
+            undoButton.addActionListener(_ -> {
                 cartManager.undoFromCart(product);
                 JOptionPane.showMessageDialog(frame, "REMOVED FROM CART!");
             });
@@ -306,7 +309,7 @@ class eCartApplication {
         getStartedButton.setFocusPainted(false);
         getStartedButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        getStartedButton.addActionListener(e -> {
+        getStartedButton.addActionListener(_ -> {
 
             mainFrame.getContentPane().removeAll();
             JPanel sidebar = createSidebar(mainFrame);
@@ -396,23 +399,15 @@ class eCartApplication {
         sidebar.add(checkoutButton);
         sidebar.add(logoutButton);
 
-        catalogueButton.addActionListener(e -> {
-            showCataloguePanel(frame, sidebar, frame);
-        });
+        catalogueButton.addActionListener(_ -> showCataloguePanel(frame, sidebar, frame));
 
-        cartButton.addActionListener(e -> {
-            showCartPanel(frame, sidebar);
-        });
+        cartButton.addActionListener(_ -> showCartPanel(frame, sidebar));
 
-        billingButton.addActionListener(e -> {
-            showBillingPanel(frame, sidebar, cartManager.getCart());
-        });
+        billingButton.addActionListener(_ -> showBillingPanel(frame, sidebar, cartManager.getCart()));
 
-        checkoutButton.addActionListener(e -> {
-            showCheckoutPanel(frame, sidebar);
-        });
+        checkoutButton.addActionListener(_ -> showCheckoutPanel(frame, sidebar));
 
-        logoutButton.addActionListener(e -> {
+        logoutButton.addActionListener(_ -> {
             frame.dispose();
             showLoginRegisterPanel();
         });
@@ -461,7 +456,7 @@ class eCartApplication {
                 JButton minusButton = new JButton("-");
                 minusButton.setBackground(new Color(204, 0, 0));
                 minusButton.setForeground(Color.WHITE);
-                minusButton.addActionListener(e -> {
+                minusButton.addActionListener(_ -> {
                     int updatedQuantity = cartManager.getCart().get(product) - 1;
                     if (updatedQuantity > 0) {
                         cartManager.updateCart(product, updatedQuantity);
@@ -478,7 +473,7 @@ class eCartApplication {
                 JButton plusButton = new JButton("+");
                 plusButton.setBackground(new Color(0, 204, 0));
                 plusButton.setForeground(Color.WHITE);
-                plusButton.addActionListener(e -> {
+                plusButton.addActionListener(_ -> {
                     int updatedQuantity = cartManager.getCart().get(product) + 1;
                     cartManager.updateCart(product, updatedQuantity);
                     showCartPanel(mainFrame, sidebar);
@@ -503,9 +498,7 @@ class eCartApplication {
         proceedToBillingButton.setFont(new Font("Arial", Font.BOLD, 16));
         proceedToBillingButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        proceedToBillingButton.addActionListener(e -> {
-            showBillingPanel(mainFrame, sidebar, cart);
-        });
+        proceedToBillingButton.addActionListener(_ -> showBillingPanel(mainFrame, sidebar, cart));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.BLACK);
@@ -570,28 +563,24 @@ class eCartApplication {
         JButton sortLowToHigh = new JButton("Sort: Low to High");
         sortLowToHigh.setBackground(new Color(0, 102, 204));
         sortLowToHigh.setForeground(Color.WHITE);
-        sortLowToHigh.addActionListener(e -> {
-            cart.entrySet().stream()
-                    .sorted((entry1, entry2) -> {
-                        double price1 = cartManager.getCatalogue().get(entry1.getKey());
-                        double price2 = cartManager.getCatalogue().get(entry2.getKey());
-                        return Double.compare(price1, price2);
-                    })
-                    .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
-        });
+        sortLowToHigh.addActionListener(_ -> cart.entrySet().stream()
+                .sorted((entry1, entry2) -> {
+                    double price1 = cartManager.getCatalogue().get(entry1.getKey());
+                    double price2 = cartManager.getCatalogue().get(entry2.getKey());
+                    return Double.compare(price1, price2);
+                })
+                .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue())));
 
         JButton sortHighToLow = new JButton("Sort: High to Low");
         sortHighToLow.setBackground(new Color(0, 102, 204));
         sortHighToLow.setForeground(Color.WHITE);
-        sortHighToLow.addActionListener(e -> {
-            cart.entrySet().stream()
-                    .sorted((entry1, entry2) -> {
-                        double price1 = cartManager.getCatalogue().get(entry1.getKey());
-                        double price2 = cartManager.getCatalogue().get(entry2.getKey());
-                        return Double.compare(price2, price1);
-                    })
-                    .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
-        });
+        sortHighToLow.addActionListener(_ -> cart.entrySet().stream()
+                .sorted((entry1, entry2) -> {
+                    double price1 = cartManager.getCatalogue().get(entry1.getKey());
+                    double price2 = cartManager.getCatalogue().get(entry2.getKey());
+                    return Double.compare(price2, price1);
+                })
+                .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue())));
 
         sortingPanel.add(sortLowToHigh);
         sortingPanel.add(sortHighToLow);
@@ -602,9 +591,7 @@ class eCartApplication {
         checkoutButton.setForeground(Color.WHITE);
         checkoutButton.setFont(new Font("Arial", Font.BOLD, 16));
         checkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        checkoutButton.addActionListener(e -> {
-            showCheckoutPanel(mainFrame, sidebar);
-        });
+        checkoutButton.addActionListener(_ -> showCheckoutPanel(mainFrame, sidebar));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.BLACK);
@@ -669,9 +656,7 @@ class eCartApplication {
         gbc.gridx = 1;
         checkoutPanel.add(codButton, gbc);
 
-        codButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "CASH ON DELIVERY SELECTED.");
-        });
+        codButton.addActionListener(_ -> JOptionPane.showMessageDialog(frame, "CASH ON DELIVERY SELECTED."));
 
         JButton confirmButton = new JButton("            CONFIRM CHECKOUT            ");
         confirmButton.setBackground(new Color(0, 102, 204));
@@ -681,7 +666,7 @@ class eCartApplication {
         gbc.gridwidth = 2;
         checkoutPanel.add(confirmButton, gbc);
 
-        confirmButton.addActionListener(e -> {
+        confirmButton.addActionListener(_ -> {
 
             if (nameField.getText().trim().isEmpty() || addressField.getText().trim().isEmpty() || phoneField.getText().trim().isEmpty()) {
 
