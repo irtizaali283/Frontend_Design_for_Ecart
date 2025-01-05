@@ -1,4 +1,4 @@
-# E-Cart-Project
+# JAVA-E-Cart-Project-Gui-Based
 
 This is an E-Cart project based on JAVA Swing.
 
