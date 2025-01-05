@@ -33,3 +33,4 @@ This is an E-Cart project based on JAVA Swing.
 . CHECKOUT
 . LOGOUT
 
+There are 2 files of code first is "Main Class (eCartApplication)", Second is "2nd Class (CartManager)". Now Make a new project and make first class with name "eCartApplication" now make second class with name "CartManager" now run "eCartApplication" file.
