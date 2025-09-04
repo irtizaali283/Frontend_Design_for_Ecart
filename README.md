@@ -1,6 +1,6 @@
-# JAVA-E-Cart-Project-Gui-Based
+Frontend Design for Ecart App
 
-This is an E-Cart project based on JAVA Swing.
+This is a Frontend Design for Ecart App based on JAVA Swing.
 
 ----------FUNCTIONALITIES----------
 
