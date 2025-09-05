@@ -1,36 +1,132 @@
-Frontend Design for Ecart App
+# E-Cart Java Swing Application
+Project Overview
+A complete desktop e-commerce application built with Java Swing that provides a graphical user interface for online shopping with full cart management and checkout functionality.
 
-This is a Frontend Design for Ecart App based on JAVA Swing.
+Functionalities
+Login & Registration System
 
-----------FUNCTIONALITIES----------
+Registration Requirements:
 
-.) LOGIN:
-   Firt you have to register yourself.
+Email validation with special character "@"
 
-.) REGISTRATION:
-   Email should use special char like "@".
-   Password should be atleast 8 char.
-   Phone numeber should be 11 char.
+Password minimum 8 characters
 
-.) CATALOGUE:
-   Add to cart / Remove from cart.
+Phone number must be exactly 11 digits
 
-.) CART:
-   Quantity setter + & - Button.
+Secure login with registered credentials
 
-.) BILLING:
-   Invoice generator.
 
-.) CHECKOUT:  
-   Phone number should be 11 char.
-   Only Cod method is available.
+Product Catalogue
+Browse available products
 
-----------FEATURES----------
-. LOGIN/REGISTRATION PANEL
-. CATALOGUE
-. CART 
-. BILLING
-. CHECKOUT
-. LOGOUT
+Add/remove items from cart
 
-There are 2 files of code first is "Main Class (eCartApplication)", Second is "2nd Class (CartManager)". Now Make a new project and make first class with name "eCartApplication" now make second class with name "CartManager" now run "eCartApplication" file.
+Product display with details
+
+
+Shopping Cart Management
+Quantity adjustment with +/- buttons
+
+Real-time cart updates
+
+Item management (add/remove)
+
+
+Billing System
+Automatic invoice generation
+
+Price calculation with quantities
+
+Order summary display
+
+
+Checkout Process
+Order confirmation
+
+COD (Cash on Delivery) payment method
+
+Phone number validation (11 digits)
+
+
+Logout System
+Secure session termination
+
+Return to login screen
+
+
+Project Structure
+Class 1: eCartApplication
+Main application class containing:
+
+Login/registration interface
+
+Main application window
+
+Navigation between panels
+
+User authentication logic
+
+Class 2: CartManager
+Cart management class containing:
+
+Shopping cart operations
+
+Quantity adjustment logic
+
+Price calculations
+
+Invoice generation
+
+
+Setup Instructions
+Create a new Java project in your IDE
+
+Create first class named: eCartApplication
+
+Create second class named: CartManager
+
+Copy the provided code into respective classes
+
+Run the eCartApplication class to start the application
+
+
+Application Flow
+Launch Application → Starts with login/registration screen
+
+Register/Login → Create account or login with existing credentials
+
+Browse Catalogue → View products and add to cart
+
+Manage Cart → Adjust quantities and review items
+
+Checkout → Complete order with COD payment
+
+Invoice Generation → Receive order confirmation
+
+Logout → End session and return to login screen
+
+
+Validation Rules
+Email: Must contain "@" symbol
+
+Password: Minimum 8 characters
+
+Phone: Exactly 11 digits
+
+Cart: Quantity must be ≥ 1
+
+Checkout: All fields mandatory
+
+
+UI Components
+Swing frames and panels
+
+Buttons with action listeners
+
+Text fields with input validation
+
+Tables for product display
+
+Dialog boxes for messages
+
+This application provides a complete e-commerce experience with focus on user-friendly interface and robust functionality using Java Swing components.
